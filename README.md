@@ -1,0 +1,1283 @@
+ <!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gaoua Services - Djôrô</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --vert-principal: #0e4496;
+            --vert-clair: #cf5c19;
+            --orange: #FF9800;
+            --orange-fonce: #F57C00;
+            --gris-clair: #c6ccdd;
+            --gris-moyen: #212142;
+            --gris-fonce: #424242;
+            --blanc: #dac1b5;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: var(--gris-clair);
+            color: var(--gris-fonce);
+            line-height: 1.6;
+        }
+        
+        header {
+            background: linear-gradient(to right, var(--vert-principal), var(--vert-clair));
+            color: var(--blanc);
+            padding: 1.5rem 0;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .logo i {
+            font-size: 2.5rem;
+            color: var(--orange);
+        }
+        
+        .logo h1 {
+            font-size: 1.8rem;
+            font-weight: 700;
+        }
+        
+        .logo span {
+            display: block;
+            font-size: 1rem;
+            font-weight: 400;
+            opacity: 0.9;
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 30px;
+        }
+        
+        nav a {
+            color: var(--blanc);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: color 0.3s;
+            padding: 5px 10px;
+            border-radius: 4px;
+        }
+        
+        nav a:hover {
+            color: var(--orange);
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+        
+        .hero {
+            position: relative;
+            height: 500px;
+            overflow: hidden;
+        }
+        
+        .slideshow-container {
+            width: 100%;
+            height: 100%;
+            position: relative;
+        }
+        
+        .slide {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .slide.active {
+            opacity: 1;
+        }
+        
+        .slide-content {
+            background-color: rgba(0, 0, 0, 0.6);
+            color: var(--blanc);
+            padding: 2rem;
+            border-radius: 10px;
+            text-align: center;
+            max-width: 800px;
+        }
+        
+        .slide-content h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.5);
+        }
+        
+        .slide-content p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+        
+        .slideshow-controls {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 10px;
+            z-index: 10;
+        }
+        
+        .slide-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.5);
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        
+        .slide-dot.active {
+            background-color: var(--orange);
+        }
+        
+        .search-bar {
+            max-width: 600px;
+            margin: 2rem auto 0;
+            display: flex;
+            background-color: var(--blanc);
+            border-radius: 50px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        
+        .search-bar input {
+            flex: 1;
+            padding: 15px 25px;
+            border: none;
+            font-size: 1.1rem;
+            outline: none;
+        }
+        
+        .search-bar button {
+            background-color: var(--orange);
+            color: var(--blanc);
+            border: none;
+            padding: 0 30px;
+            cursor: pointer;
+            font-size: 1.2rem;
+            transition: background-color 0.3s;
+        }
+        
+        .search-bar button:hover {
+            background-color: var(--orange-fonce);
+        }
+        
+        .categories {
+            padding: 4rem 0;
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 3rem;
+            color: var(--vert-principal);
+            font-size: 2.2rem;
+            position: relative;
+        }
+        
+        .section-title:after {
+            content: '';
+            position: absolute;
+            width: 80px;
+            height: 4px;
+            background-color: var(--orange);
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-radius: 2px;
+        }
+        
+        .categories-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 30px;
+        }
+        
+        .category-card {
+            background-color: var(--blanc);
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            transition: transform 0.3s, box-shadow 0.3s;
+            cursor: pointer;
+        }
+        
+        .category-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+        }
+        
+        .category-icon {
+            background: linear-gradient(to right, var(--vert-clair), var(--vert-principal));
+            color: var(--blanc);
+            height: 120px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3.5rem;
+        }
+        
+        .category-content {
+            padding: 25px;
+        }
+        
+        .category-content h3 {
+            color: var(--vert-principal);
+            margin-bottom: 15px;
+            font-size: 1.5rem;
+        }
+        
+        .category-content p {
+            color: var(--gris-moyen);
+            margin-bottom: 20px;
+        }
+        
+        .phone-number {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--orange-fonce);
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+        
+        .phone-number i {
+            font-size: 1.2rem;
+        }
+        
+        .quick-access {
+            background-color: var(--gris-clair);
+            padding: 3rem 0;
+            border-top: 1px solid #e0e0e0;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        
+        .quick-categories {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin-top: 2rem;
+        }
+        
+        .quick-category {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-color: var(--blanc);
+            padding: 20px;
+            border-radius: 10px;
+            width: 150px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+        
+        .quick-category:hover {
+            transform: translateY(-5px);
+        }
+        
+        .quick-icon {
+            background-color: var(--vert-clair);
+            color: var(--blanc);
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            margin-bottom: 15px;
+        }
+        
+        .quick-category span {
+            font-weight: 600;
+            color: var(--gris-fonce);
+            text-align: center;
+        }
+        
+        .details-panel {
+            position: fixed;
+            top: 0;
+            right: -400px;
+            width: 380px;
+            height: 100%;
+            background-color: var(--blanc);
+            box-shadow: -5px 0 15px rgba(0,0,0,0.1);
+            padding: 30px;
+            overflow-y: auto;
+            transition: right 0.4s ease;
+            z-index: 1000;
+        }
+        
+        .details-panel.active {
+            right: 0;
+        }
+        
+        .close-btn {
+            background-color: var(--gris-clair);
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            font-size: 1.5rem;
+            color: var(--gris-fonce);
+            cursor: pointer;
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .panel-title {
+            color: var(--vert-principal);
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid var(--gris-clair);
+            font-size: 1.8rem;
+        }
+        
+        .service-item {
+            padding: 15px 0;
+            border-bottom: 1px solid var(--gris-clair);
+        }
+        
+        .service-item h4 {
+            color: var(--vert-principal);
+            margin-bottom: 5px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .service-item h4 i {
+            color: var(--orange);
+        }
+        
+        .service-item p {
+            color: var(--gris-moyen);
+            font-size: 0.95rem;
+            margin-bottom: 5px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .service-phone {
+            color: var(--orange-fonce);
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 8px;
+        }
+        
+        .monuments-section {
+            background-color: var(--blanc);
+            padding: 4rem 0;
+        }
+        
+        .monuments-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 30px;
+        }
+        
+        .monument-card {
+            background-color: var(--gris-clair);
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            transition: transform 0.3s;
+        }
+        
+        .monument-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .monument-image {
+            height: 250px;
+            background-color: var(--orange);
+            color: var(--blanc);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+            background-size: cover;
+            background-position: center;
+        }
+        
+        .monument-content {
+            padding: 25px;
+        }
+        
+        .monument-content h3 {
+            color: var(--vert-principal);
+            margin-bottom: 10px;
+        }
+        
+        .monument-description {
+            color: var(--gris-fonce);
+            margin-bottom: 15px;
+        }
+        
+        .monument-info {
+            color: var(--orange-fonce);
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        footer {
+            background-color: var(--gris-fonce);
+            color: var(--blanc);
+            padding: 3rem 0 2rem;
+        }
+        
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 40px;
+            margin-bottom: 2rem;
+        }
+        
+        .footer-column h3 {
+            color: var(--orange);
+            margin-bottom: 20px;
+            font-size: 1.3rem;
+        }
+        
+        .footer-column ul {
+            list-style: none;
+        }
+        
+        .footer-column li {
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .footer-column a {
+            color: var(--gris-clair);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .footer-column a:hover {
+            color: var(--orange);
+        }
+        
+        .copyright {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid var(--gris-moyen);
+            color: var(--gris-clair);
+            font-size: 0.9rem;
+        }
+        
+        .backdrop {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            z-index: 999;
+            display: none;
+        }
+        
+        .backdrop.active {
+            display: block;
+        }
+        
+        @media (max-width: 992px) {
+            .header-content {
+                flex-direction: column;
+                gap: 20px;
+            }
+            
+            nav ul {
+                gap: 15px;
+            }
+            
+            .slide-content h2 {
+                font-size: 2rem;
+            }
+            
+            .details-panel {
+                width: 100%;
+                right: -100%;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .categories-grid, .monuments-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            nav ul {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            .footer-content {
+                flex-direction: column;
+            }
+            
+            .quick-categories {
+                justify-content: center;
+            }
+            
+            .quick-category {
+                width: 130px;
+            }
+            
+            .hero {
+                height: 400px;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .quick-category {
+                width: 110px;
+            }
+            
+            .quick-icon {
+                width: 50px;
+                height: 50px;
+                font-size: 1.5rem;
+            }
+            
+            .slide-content h2 {
+                font-size: 1.8rem;
+            }
+            
+            .slide-content p {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container header-content">
+            <div class="logo">
+                <i class="fas fa-city"></i>
+                <div>
+                    <h1>Gaoua Services</h1>
+                    <span>Chef-lieu de la région du Djôrô</span>
+                </div>
+            </div>
+            <nav>
+                <ul>
+            <li><a href="#accueil">Accueil</a></li>
+                    <li><a href="#categories">Catégories</a></li>
+                    <li><a href="#rapide">Accès rapide</a></li>
+                    <li><a href="#monuments">Monuments</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section avec diaporama -->
+    <section class="hero" id="accueil">
+        <div class="slideshow-container">
+            <!-- Diapositive 1 - Ruines de Loropéni -->
+            <div class="slide active" id="slide1">
+                <div class="slide-content">
+                    <h2>Ruines de Loropéni</h2>
+                    <p>Site historique classé au patrimoine mondial de l'UNESCO</p>
+                </div>
+            </div>
+            
+            <!-- Diapositive 2 - Musée de Gaoua -->
+            <div class="slide" id="slide2">
+                <div class="slide-content">
+                    <h2>Musée des Civilisations du Sud-Ouest</h2>
+                    <p>Découvrez l'histoire et la culture des peuples du Djôrô</p>
+                </div>
+            </div>
+            
+            <!-- Diapositive 3 - Mairie de Gaoua -->
+            <div class="slide" id="slide3">
+                <div class="slide-content">
+                    <h2>Mairie de Gaoua</h2>
+                    <p>Centre administratif et cœur décisionnel de la ville</p>
+                </div>
+            </div>
+            
+            <!-- Contrôles du diaporama -->
+            <div class="slideshow-controls">
+                <div class="slide-dot active" data-slide="0"></div>
+                <div class="slide-dot" data-slide="1"></div>
+                <div class="slide-dot" data-slide="2"></div>
+            </div>
+        </div>
+        
+        <div class="container">
+            <div class="search-bar">
+                <input type="text" id="searchInput" placeholder="Rechercher un service...">
+                <button id="searchButton"><i class="fas fa-search"></i></button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Catégories rapides -->
+    <section class="quick-access" id="rapide">
+        <div class="container">
+            <h2 class="section-title">Accès rapide aux services</h2>
+            <div class="quick-categories">
+                <div class="quick-category" data-category="adm">
+                    <div class="quick-icon">
+                        <i class="fas fa-landmark"></i>
+                    </div>
+                    <span>Adm</span>
+                </div>
+                
+                <div class="quick-category" data-category="hotels">
+                    <div class="quick-icon">
+                        <i class="fas fa-hotel"></i>
+                    </div>
+                    <span>Hôtels</span>
+                </div>
+                
+                <div class="quick-category" data-category="sante">
+                    <div class="quick-icon">
+                        <i class="fas fa-hospital"></i>
+                    </div>
+                    <span>Santé</span>
+                </div>
+                
+                <div class="quick-category" data-category="transport">
+                    <div class="quick-icon">
+                        <i class="fas fa-bus"></i>
+                    </div>
+                    <span>Transport</span>
+                </div>
+                
+                <div class="quick-category" data-category="culte">
+                    <div class="quick-icon">
+                        <i class="fas fa-place-of-worship"></i>
+                    </div>
+                    <span>Lieux de culte</span>
+                </div>
+                
+                <div class="quick-category" data-category="banques">
+                    <div class="quick-icon">
+                        <i class="fas fa-university"></i>
+                    </div>
+                    <span>Banques</span>
+                </div>
+                
+                <div class="quick-category" data-category="restaurants">
+                    <div class="quick-icon">
+                        <i class="fas fa-utensils"></i>
+                    </div>
+                    <span>Restaurants</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Catégories principales -->
+    <section class="categories" id="categories">
+        <div class="container">
+            <h2 class="section-title">Toutes les catégories de services</h2>
+            <div class="categories-grid">
+                <!-- Administrations -->
+                <div class="category-card" data-category="adm">
+                    <div class="category-icon">
+                        <i class="fas fa-landmark"></i>
+                    </div>
+                    <div class="category-content">
+                        <h3>Administrations</h3>
+                        <p>Services publics et administrations locales de Gaoua</p>
+                        <div class="phone-number">
+                            <i class="fas fa-phone"></i> +226 70 12 34 56
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Hôtels -->
+                <div class="category-card" data-category="hotels">
+                    <div class="category-icon">
+                        <i class="fas fa-hotel"></i>
+                    </div>
+                    <div class="category-content">
+                        <h3>Hôtels</h3>
+                        <p>Hébergements de qualité pour votre séjour à Gaoua</p>
+                        <div class="phone-number">
+                            <i class="fas fa-phone"></i> +226 70 23 45 67
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Santé -->
+                <div class="category-card" data-category="sante">
+                    <div class="category-icon">
+                        <i class="fas fa-hospital"></i>
+                    </div>
+                    <div class="category-content">
+                        <h3>Santé</h3>
+                        <p>Hôpitaux, CSPS et centres de santé de Gaoua</p>
+                        <div class="phone-number">
+                            <i class="fas fa-phone"></i> +226 70 34 56 78
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Transport -->
+                <div class="category-card" data-category="transport">
+                    <div class="category-icon">
+                        <i class="fas fa-bus"></i>
+                    </div>
+                    <div class="category-content">
+                        <h3>Transport</h3>
+                        <p>Sociétés de transport : TSR, STAFF, KOLO et autres</p>
+                        <div class="phone-number">
+                            <i class="fas fa-phone"></i> +226 70 45 67 89
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Lieux de culte -->
+                <div class="category-card" data-category="culte">
+                    <div class="category-icon">
+                        <i class="fas fa-place-of-worship"></i>
+                    </div>
+                    <div class="category-content">
+                        <h3>Lieux de culte</h3>
+                        <p>Églises, mosquées et autres lieux de culte</p>
+                        <div class="phone-number">
+                            <i class="fas fa-phone"></i> +226 70 56 78 90
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Banques -->
+                <div class="category-card" data-category="banques">
+                    <div class="category-icon">
+                        <i class="fas fa-university"></i>
+                    </div>
+                    <div class="category-content">
+                        <h3>Banques</h3>
+                        <p>Banques et institutions financières</p>
+                        <div class="phone-number">
+                            <i class="fas fa-phone"></i> +226 70 67 89 01
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Restaurants -->
+                <div class="category-card" data-category="restaurants">
+                    <div class="category-icon">
+                        <i class="fas fa-utensils"></i>
+                    </div>
+                    <div class="category-content">
+                        <h3>Restaurants</h3>
+                        <p>Restaurants et lieux de restauration à Gaoua</p>
+                        <div class="phone-number">
+                            <i class="fas fa-phone"></i> +226 70 78 90 12
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Écoles et Universités -->
+                <div class="category-card" data-category="education">
+                    <div class="category-icon">
+                        <i class="fas fa-graduation-cap"></i>
+                    </div>
+                    <div class="category-content">
+                        <h3>Éducation</h3>
+                        <p>Écoles, collèges, lycées et universités</p>
+                        <div class="phone-number">
+                            <i class="fas fa-phone"></i> +226 70 89 01 23
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section Monuments et Sites Importants -->
+    <section class="monuments-section" id="monuments">
+        <div class="container">
+            <h2 class="section-title">Monuments et Sites Importants de Gaoua</h2>
+            <div class="monuments-grid">
+                <!-- Ruines de Loropéni -->
+                <div class="monument-card">
+                    <div class="monument-image" style="background-image: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url('https://upload.wikimedia.org/wikipedia/commons/thumb/5/57/Ruins_of_Loropeni_2.jpg/1200px-Ruins_of_Loropeni_2.jpg');">
+                        <i class="fas fa-landmark"></i>
+                    </div>
+                    <div class="monument-content">
+                        <h3>Ruines de Loropéni</h3>
+                        <p class="monument-description">Site historique classé au patrimoine mondial de l'UNESCO. Ces ruines mystérieuses témoignent de l'histoire ancienne de la région.</p>
+                        <div class="monument-info">
+                            <i class="fas fa-map-marker-alt"></i> À 40km de Gaoua
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Musée de Gaoua -->
+                <div class="monument-card">
+                    <div class="monument-image" style="background-image: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url('https://upload.wikimedia.org/wikipedia/commons/thumb/8/8a/Mus%C3%A9e_des_civilisations_des_peuples_du_Sud-ouest_%C3%A0_Gaoua.jpg/1200px-Mus%C3%A9e_des_civilisations_des_peuples_du_Sud-ouest_%C3%A0_Gaoua.jpg');">
+                        <i class="fas fa-museum"></i>
+                    </div>
+                    <div class="monument-content">
+                        <h3>Musée des Civilisations du Sud-Ouest</h3>
+                        <p class="monument-description">Conserve et présente le riche patrimoine culturel des peuples Lobi, Dagara et Birifor de la région du Djôrô.</p>
+                        <div class="monument-info">
+                            <i class="fas fa-clock"></i> Ouvert du mardi au dimanche
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Mairie de Gaoua -->
+                <div class="monument-card">
+                    <div class="monument-image" style="background-image: linear-gradient(rgba(141, 73, 73, 0.3), rgba(0,0,0,0.3)), url('https://upload.wikimedia.org/wikipedia/commons/thumb/9/97/Gaoua_town_hall.jpg/1200px-Gaoua_town_hall.jpg');">
+                        <i class="fas fa-city"></i>
+                    </div>
+                    <div class="monument-content">
+                        <h3>Mairie de Gaoua</h3>
+                        <p class="monument-description">Siège de l'administration municipale. Bâtiment représentatif de l'architecture administrative de la région.</p>
+                        <div class="monument-info">
+                            <i class="fas fa-phone"></i> +226 70 12 34 56
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Panneau de détails -->
+    <div class="backdrop" id="backdrop"></div>
+    <div class="details-panel" id="detailsPanel">
+        <button class="close-btn" id="closePanel">
+            <i class="fas fa-times"></i>
+        </button>
+        <h2 class="panel-title" id="panelTitle">Administrations à Gaoua</h2>
+        <div id="panelContent">
+            <!-- Le contenu sera généré dynamiquement -->
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer id="contact">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>Gaoua Services</h3>
+                    <p>Votre guide complet des services disponibles dans la ville de Gaoua, chef-lieu de la région du Djôrô.</p>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Contact</h3>
+                    <ul>
+                        <li><i class="fas fa-map-marker-alt"></i> Gaoua, Région du Djôrô, Burkina Faso</li>
+                        <li><i class="fas fa-phone"></i> +226 70 00 00 00</li>
+                        <li><i class="fas fa-envelope"></i> contact@gaouaservices.bf</li>
+                        <li><i class="fas fa-clock"></i> Lundi - Vendredi: 8h - 18h</li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Services populaires</h3>
+                    <ul>
+                        <li><a href="#" data-category="adm"><i class="fas fa-arrow-right"></i> Administrations</a></li>
+                        <li><a href="#" data-category="hotels"><i class="fas fa-arrow-right"></i> Hôtels</a></li>
+                        <li><a href="#" data-category="sante"><i class="fas fa-arrow-right"></i> Services de santé</a></li>
+                        <li><a href="#" data-category="transport"><i class="fas fa-arrow-right"></i> Transports</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="copyright">
+                <p>&copy; 202- Gaoua Services - Tous droits réservés | Site développé pour la promotion des services de Gaoua</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // =============================================
+        // IMAGES DU DIAPORAMA - MODIFIÉES AVEC DES PHOTOS RÉELLES DE GAOUA
+        // =============================================
+        const slides = [
+            {
+                id: 'slide1',
+                background: 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/57/Ruins_of_Loropeni_2.jpg/1200px-Ruins_of_Loropeni_2.jpg',
+                title: 'Ruines de Loropéni',
+                description: 'Site historique classé au patrimoine mondial de l\'UNESCO près de Gaoua'
+            },
+            {
+                id: 'slide2',
+                background: 'https://upload.wikimedia.org/wikipedia/commons/thumb/8/8a/Mus%C3%A9e_des_civilisations_des_peuples_du_Sud-ouest_%C3%A0_Gaoua.jpg/1200px-Mus%C3%A9e_des_civilisations_des_peuples_du_Sud-ouest_%C3%A0_Gaoua.jpg',
+                title: 'Musée des Civilisations du Sud-Ouest',
+                description: 'Découvrez l\'histoire et la culture des peuples du Djôrô'
+            },
+            {
+                id: 'slide3',
+                background: 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/97/Gaoua_town_hall.jpg/1200px-Gaoua_town_hall.jpg',
+                title: 'Mairie de Gaoua',
+                description: 'Centre administratif et cœur décisionnel de la ville'
+            }
+        ];
+        // =============================================
+        
+        // Données des services
+        const servicesData = {
+            adm: {
+                title: "Administrations à Gaoua",
+                icon: "fas fa-landmark",
+                services: [
+                    { name: "Mairie de Gaoua", address: "Centre Administratif, Gaoua", phone: "+226 70 12 34 56" },
+                    { name: "Préfecture de la région du Djôrô", address: "Centre Administratif, Gaoua", phone: "+226 70 12 34 57" },
+                    { name: "Direction Régionale des Finances", address: "Quartier Administratif, Gaoua", phone: "+226 70 12 34 58" },
+                    { name: "Poste de Gaoua", address: "Centre-ville, Gaoua", phone: "+226 70 12 34 59" },
+                    { name: "Agence Nationale de la Météorologie", address: "Route de Léo, Gaoua", phone: "+226 70 12 34 60" },
+                    { name: "Direction Régionale de l'Agriculture", address: "Quartier Administratif, Gaoua", phone: "+226 70 12 34 61" }
+                ]
+            },
+            hotels: {
+                title: "Hôtels à Gaoua",
+                icon: "fas fa-hotel",
+                services: [
+                    { name: "Hôtel de la résidence M7", address: "Centre-ville, Gaoua", phone: "+226 70 23 45 67" },
+                    { name: "Maison de l'Appelé", address: "Rue du Marché, Gaoua", phone: "+226 70 23 45 68" },
+                    { name: "Hôtel les cauris de DIKI", address: "Route de Dano, Gaoua", phone: "+226 70 23 45 69" },
+                    { name: "Hôtel Renaissance", address: "Quartier Administratif, Gaoua", phone: "+226 70 23 45 70" },
+                    { name: "Halla Hôtel", address: "Route de Batié, Gaoua", phone: "+226 70 23 45 71" },
+                    { name: "Hôtel Les Cocotiers", address: "Secteur 3, Gaoua", phone: "+226 70 23 45 72" }
+                ]
+            },
+            sante: {
+                title: "Services de santé à Gaoua",
+                icon: "fas fa-hospital",
+                services: [
+                    { name: "Hôpital Régional de Gaoua", address: "Quartier Santé, Gaoua", phone: "+226 70 34 56 78" },
+                    { name: "CSPS de Niobini", address: "Centre-ville, Gaoua", phone: "+226 70 34 56 79" },
+                    { name: "CSPS du Désert", address: "Secteur 2, Gaoua", phone: "+226 70 34 56 80" },
+                    { name: "Pharmacie des collines", address: "Rue du Marché, Gaoua", phone: "+226 70 34 56 81" },
+                    { name: "Pharmacie Cristal", address: "Quartier Mission, Gaoua", phone: "+226 70 34 56 82" },
+                    { name: "Centre de Santé Mère-Enfant", address: "Quartier Santé, Gaoua", phone: "+226 70 34 56 83" }
+                ]
+            },
+            transport: {
+                title: "Sociétés de transport à Gaoua",
+                icon: "fas fa-bus",
+                services: [
+                    { name: "TSR Transport", address: "Gare Routière, Gaoua", phone: "+226 70 45 67 89" },
+                    { name: "STAFF Transport", address: "Gare Routière, Gaoua", phone: "+226 70 45 67 90" },
+                    { name: "KOLO Transport", address: "Gare Routière, Gaoua", phone: "+226 70 45 67 91" },
+                    { name: "Transport Djôrô", address: "Route de Batié, Gaoua", phone: "+226 70 45 67 92" },
+                    { name: "Gaoua Express", address: "Centre-ville, Gaoua", phone: "+226 70 45 67 93" },
+                    { name: "Taxi Station Centre-ville", address: "Place du Marché, Gaoua", phone: "+226 70 45 67 94" }
+                ]
+            },
+            culte: {
+                title: "Lieux de culte à Gaoua",
+                icon: "fas fa-place-of-worship",
+                services: [
+                    { name: "Cathédrale Saint-Pierre de Gaoua", address: "Quartier Mission, Gaoua", phone: "+226 70 56 78 90" },
+                    { name: "Mosquée Centrale de Gaoua", address: "Centre-ville, Gaoua", phone: "+226 70 56 78 91" },
+                    { name: "Mosquée CERFI", address: "Secteur 8, Gaoua", phone: "+226 70 56 78 92" },
+                    { name: "Temple Protestant", address: "Quartier Administratif, Gaoua", phone: "+226 70 56 78 93" },
+                    { name: "Mosquée du Marché", address: "Rue du Marché, Gaoua", phone: "+226 70 56 78 94" },
+                    { name: "Chapelle Sainte-Thérèse", address: "Route de Dano, Gaoua", phone: "+226 70 56 78 95" }
+                ]
+            },
+            banques: {
+                title: "Banques à Gaoua",
+                icon: "fas fa-university",
+                services: [
+                    { name: "Banque UBA Gaoua", address: "Centre-ville, Gaoua", phone: "+226 70 67 89 01" },
+                    { name: "Ecobank Gaoua", address: "Quartier Administratif, Gaoua", phone: "+226 70 67 89 02" },
+                    { name: "Banque Agricole", address: "Route du Marché, Gaoua", phone: "+226 70 67 89 03" },
+                    { name: "Société Générale Burkina", address: "Centre-ville, Gaoua", phone: "+226 70 67 89 04" },
+                    { name: "Coris Bank", address: "Quartier Commercial, Gaoua", phone: "+226 70 67 89 05" },
+                    { name: "BICIAB Gaoua", address: "Route de Batié, Gaoua", phone: "+226 70 67 89 06" }
+                ]
+            },
+            restaurants: {
+                title: "Restaurants à Gaoua",
+                icon: "fas fa-utensils",
+                services: [
+                    { name: "Restaurant Le Djôrô", address: "Centre-ville, Gaoua", phone: "+226 70 78 90 12" },
+                    { name: "Maquis Les coris de DIKI", address: "Rue du Marché, Gaoua", phone: "+226 70 78 90 13" },
+                    { name: "RAMA délice", address: "Quartier Commercial, Gaoua", phone: "+226 70 78 90 14" },
+                    { name: "Restaurant Le Campement", address: "Route de Dano, Gaoua", phone: "+226 70 78 90 15" },
+                    { name: "Pâtisserie La Douceur", address: "Centre-ville, Gaoua", phone: "+226 70 78 90 16" },
+                    { name: "Maquis Chez Fatou", address: "Secteur 3, Gaoua", phone: "+226 70 78 90 17" }
+                ]
+            },
+            education: {
+                title: "Établissements éducatifs à Gaoua",
+                icon: "fas fa-graduation-cap",
+                services: [
+                    { name: "Centre Universitaire de Gaoua", address: "Campus Universitaire, Gaoua", phone: "+226 70 89 01 23" },
+                    { name: "Lycée Provincial de Gaoua", address: "Route de Dano, Gaoua", phone: "+226 70 89 01 24" },
+                    { name: "Complexe Scolaire Notre Dame", address: "Quartier Administratif, Gaoua", phone: "+226 70 89 01 25" },
+                    { name: "École Primaire Centre A", address: "Centre-ville, Gaoua", phone: "+226 70 89 01 26" },
+                    { name: "Institut Supérieur de Technologie", address: "Route de Batié, Gaoua", phone: "+226 70 89 01 27" },
+                    { name: "École Privée Frères Bernard", address: "Quartier Mission, Gaoua", phone: "+226 70 89 01 28" }
+                ]
+            }
+        };
+
+        // Éléments du DOM
+        const categoryCards = document.querySelectorAll('.category-card');
+        const quickCategories = document.querySelectorAll('.quick-category');
+        const detailsPanel = document.getElementById('detailsPanel');
+        const panelTitle = document.getElementById('panelTitle');
+        const panelContent = document.getElementById('panelContent');
+        const closePanelBtn = document.getElementById('closePanel');
+        const backdrop = document.getElementById('backdrop');
+        const searchInput = document.getElementById('searchInput');
+        const searchButton = document.getElementById('searchButton');
+        const footerLinks = document.querySelectorAll('.footer-column a[data-category]');
+        const slideDots = document.querySelectorAll('.slide-dot');
+        let currentSlide = 0;
+        let slideInterval;
+
+        // Initialiser le diaporama
+        function initSlideshow() {
+            // Appliquer les images de fond aux diapositives
+            slides.forEach((slide, index) => {
+                const slideElement = document.getElementById(slide.id);
+                if (slideElement) {
+                    slideElement.style.backgroundImage = `linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.7)), url('${slide.background}')`;
+                    
+                    // Mettre à jour le titre et la description si fournis
+                    const titleElement = slideElement.querySelector('.slide-content h2');
+                    const descElement = slideElement.querySelector('.slide-content p');
+                    
+                    if (slide.title && titleElement) {
+                        titleElement.textContent = slide.title;
+                    }
+                    
+                    if (slide.description && descElement) {
+                        descElement.textContent = slide.description;
+                    }
+                }
+            });
+            
+            // Démarrer la rotation automatique
+            startSlideshow();
+            
+            // Ajouter les événements pour les points de contrôle
+            slideDots.forEach(dot => {
+                dot.addEventListener('click', function() {
+                    const slideIndex = parseInt(this.getAttribute('data-slide'));
+                    goToSlide(slideIndex);
+                });
+            });
+        }
+
+        // Changer de diapositive
+        function changeSlide() {
+            goToSlide((currentSlide + 1) % slides.length);
+        }
+
+        // Aller à une diapositive spécifique
+        function goToSlide(slideIndex) {
+            const allSlides = document.querySelectorAll('.slide');
+            
+            // Retirer la classe active de la diapositive actuelle
+            allSlides[currentSlide].classList.remove('active');
+            slideDots[currentSlide].classList.remove('active');
+            
+            // Mettre à jour l'index de la diapositive actuelle
+            currentSlide = slideIndex;
+            
+            // Ajouter la classe active à la nouvelle diapositive
+            allSlides[currentSlide].classList.add('active');
+            slideDots[currentSlide].classList.add('active');
+        }
+
+        // Démarrer le diaporama automatique
+        function startSlideshow() {
+            if (slideInterval) clearInterval(slideInterval);
+            slideInterval = setInterval(changeSlide, 5000);
+        }
+
+        // Arrêter le diaporama automatique
+        function stopSlideshow() {
+            if (slideInterval) clearInterval(slideInterval);
+        }
+
+        // Ouvrir le panneau de détails
+        function openDetailsPanel(category) {
+            const data = servicesData[category];
+            
+            if (!data) return;
+            
+            panelTitle.textContent = data.title;
+            panelContent.innerHTML = '';
+            
+            // Ajouter les services
+            data.services.forEach(service => {
+                const serviceElement = document.createElement('div');
+                serviceElement.className = 'service-item';
+                serviceElement.innerHTML = `
+                    <h4><i class="${data.icon}"></i> ${service.name}</h4>
+                    <p><i class="fas fa-map-marker-alt"></i> ${service.address}</p>
+                    <div class="service-phone">
+                        <i class="fas fa-phone"></i> ${service.phone}
+                    </div>
+                `;
+                panelContent.appendChild(serviceElement);
+            });
+            
+            // Afficher le panneau
+            detailsPanel.classList.add('active');
+            backdrop.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        // Fermer le panneau de détails
+        function closeDetailsPanel() {
+            detailsPanel.classList.remove('active');
+            backdrop.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+
+        // Recherche
+        function performSearch() {
+            const query = searchInput.value.toLowerCase().trim();
+            
+            if (!query) return;
+            
+            // Recherche dans les catégories
+            for (const [category, data] of Object.entries(servicesData)) {
+                // Vérifier si le titre de la catégorie correspond
+                if (data.title.toLowerCase().includes(query)) {
+                    openDetailsPanel(category);
+                    return;
+                }
+                
+                // Vérifier si un service correspond
+                for (const service of data.services) {
+                    if (service.name.toLowerCase().includes(query) || 
+                        service.address.toLowerCase().includes(query)) {
+                        openDetailsPanel(category);
+                        return;
+                    }
+                }
+            }
+            
+            // Si aucune correspondance n'est trouvée
+            alert("Aucun service ne correspond à votre recherche. Essayez avec d'autres mots-clés.");
+        }
+
+        // Événements
+        categoryCards.forEach(card => {
+            card.addEventListener('click', function() {
+                const category = this.getAttribute('data-category');
+                openDetailsPanel(category);
+            });
+        });
+
+        quickCategories.forEach(category => {
+            category.addEventListener('click', function() {
+                const categoryType = this.getAttribute('data-category');
+                openDetailsPanel(categoryType);
+            });
+            
+            // Arrêter le diaporama au survol des catégories rapides
+            category.addEventListener('mouseenter', stopSlideshow);
+            category.addEventListener('mouseleave', startSlideshow);
+        });
+
+        footerLinks.forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const category = this.getAttribute('data-category');
+                openDetailsPanel(category);
+            });
+        });
+
+        closePanelBtn.addEventListener('click', closeDetailsPanel);
+        backdrop.addEventListener('click', closeDetailsPanel);
+
+        searchButton.addEventListener('click', performSearch);
+        searchInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                performSearch();
+            }
+        });
+
+        // Navigation fluide
+        document.querySelectorAll('nav a').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                if (targetId.startsWith('#')) {
+                    const targetElement = document.querySelector(targetId);
+                    if (targetElement) {
+                        window.scrollTo({
+                            top: targetElement.offsetTop - 80,
+                            behavior: 'smooth'
+                        });
+                    }
+                }
+            });
+        });
+
+        // Arrêter le diaporama quand l'utilisateur interagit avec
+        detailsPanel.addEventListener('mouseenter', stopSlideshow);
+        detailsPanel.addEventListener('mouseleave', startSlideshow);
+
+        // Initialisation
+        document.addEventListener('DOMContentLoaded', function() {
+            initSlideshow();
+        });
+    </script>
+</body>
+</html>
